@@ -2,7 +2,9 @@
 import asyncio
 import sys
 from motor.motor_asyncio import AsyncIOMotorClient
+from dotenv import load_dotenv
 
+load_dotenv()
 
 async def check_mongo():
     try:
@@ -16,8 +18,9 @@ async def check_mongo():
 
 async def check_api():
     try:
+        API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:8000")
         async with httpx.AsyncClient() as client:
-            resp = await client.get("http://localhost:8000/health", timeout=2.0)
+            resp = await client.get(f"{API_BASE_URL}/health", timeout=2.0)
             if resp.status_code == 200:
                 print("API: OK")
                 return True
@@ -45,8 +48,9 @@ import urllib.request
 import urllib.error
 
 def check_api_sync():
+    API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:8000")
     try:
-        with urllib.request.urlopen("http://localhost:8000/health", timeout=2) as response:
+        with urllib.request.urlopen(f"{API_BASE_URL}/health", timeout=2) as response:
             if response.getcode() == 200:
                 print("API: OK")
                 return True
