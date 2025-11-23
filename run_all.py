@@ -8,12 +8,12 @@ def run_process(cmd, cwd=None):
 
 def run_backend():
     backend_path = os.path.join(os.getcwd(), "backend/app")
-    cmd = ["uvicorn", "main:app", "--reload"]
+    cmd = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
     return run_process(cmd, backend_path)
 
 def run_frontend():
     frontend_path = os.path.join(os.getcwd(), "frontend")
-    cmd = ["npm", "run", "dev"]
+    cmd = ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
     return run_process(cmd, frontend_path)
 
 
